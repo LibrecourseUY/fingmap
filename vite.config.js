@@ -1,3 +1,7 @@
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import lightningcss from 'vite-plugin-lightningcss'
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -7,10 +11,5 @@ export default defineConfig({
   ],
   build: {
     minify: 'lightningcss'
-  },
-  preview: {
-    host: '0.0.0.0',
-    port: 5173,
-    allowedHosts: ['fing.ego-services.com']
   }
 })
