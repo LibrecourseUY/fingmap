@@ -72,12 +72,11 @@ const applyTheme = (svg) => {
 
   svg.querySelectorAll('*').forEach(el => {
     const tagName = el.tagName.toLowerCase()
+    const fill = el.getAttribute('fill') || ''
+    const stroke = el.getAttribute('stroke') || ''
 
     if (['path', 'rect', 'polygon', 'circle', 'ellipse', 'g'].includes(tagName)) {
-      const fill = el.getAttribute('fill') || ''
-      const stroke = el.getAttribute('stroke') || ''
-
-      if (!fill || fill === 'none' || fill === '#000' || fill === '#000000') {
+      if (!fill || fill === 'none' || fill === '#000' || fill === '#000000' || fill === 'rgb(0, 0, 0)' || fill === 'black') {
         el.setAttribute('fill', theme.fill)
         el.style.fill = theme.fill
       }
@@ -91,6 +90,8 @@ const applyTheme = (svg) => {
     if (tagName === 'text' || tagName === 'tspan') {
       el.setAttribute('fill', theme.text)
       el.style.fill = theme.text
+      el.style.color = theme.text
+      el.setAttribute('color', theme.text)
       el.style.opacity = props.showLabels ? 1 : 0
     }
   })
