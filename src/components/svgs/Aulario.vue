@@ -32,7 +32,9 @@ const floorMap = {
 const mapSrc = computed(() => {
   const floorKey = props.floor || '0'
   const filename = floorMap[floorKey] || floorMap['0']
-  return `/images/${filename}.svg`
+  const base = import.meta.env.BASE_URL
+  const mapPath = `/images/${filename}.svg`
+  return base === '/' ? mapPath : `${base}${mapPath}`
 })
 
 const handleRoomClick = (data) => {

@@ -17,14 +17,22 @@ const miniSearch = ref(null)
 const rooms = ref([])
 const loading = ref(true)
 
+const roomsUrl = computed(() => {
+  const base = import.meta.env.BASE_URL
+  return base === '/' ? '/rooms.json' : `${base}/rooms.json`
+})
+
 const loadRooms = async () => {
   try {
-    const response = await fetch('/rooms.json')
-    if (!response.ok) throw new Error('Error al cargar salas')
+    console.log('Loading rooms from:', roomsUrl.value)
+    const response = await fetch(roomsUrl.value)
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
     rooms.value = await response.json()
     initializeSearch()
+    console.log('Rooms loaded:', rooms.value.length)
   } catch (err) {
     console.error('Error loading rooms:', err)
+    rooms.value = []
   } finally {
     loading.value = false
   }

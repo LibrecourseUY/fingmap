@@ -2,13 +2,12 @@
 import { ref, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
 import HamburgerMenu from './components/HamburgerMenu.vue'
-import SearchBar from './components/SearchBar.vue'
 import MapViewer from './components/MapViewer.vue'
 
 const currentBuilding = ref(null)
 const currentFloor = ref(null)
 const menuOpen = ref(false)
-const highlightedRoom = ref(null)
+const mapViewerRef = ref(null)
 
 const buildings = [
   {
@@ -27,7 +26,9 @@ const currentMap = computed(() => {
   if (!currentBuilding.value || !currentFloor.value) return null
   
   const buildingPrefix = currentBuilding.value.id === 'aulario' ? 'Aulario' : 'Edificio-Principal'
-  return `/images/${buildingPrefix}-Piso(${currentFloor.value}).svg`
+  const base = import.meta.env.BASE_URL
+  const mapPath = `/images/${buildingPrefix}-Piso(${currentFloor.value}).svg`
+  return base === '/' ? mapPath : `${base}${mapPath}`
 })
 
 const toggleMenu = () => {
@@ -41,7 +42,6 @@ const selectBuilding = (building) => {
 
 const selectFloor = (floor) => {
   currentFloor.value = floor
-  highlightedRoom.value = null
   menuOpen.value = false
 }
 
@@ -53,11 +53,12 @@ const handleRoomSelect = (room) => {
   if (room.floor !== currentFloor.value) {
     currentFloor.value = room.floor
   }
-  highlightedRoom.value = room.room
 }
 
-const clearHighlight = () => {
-  highlightedRoom.value = null
+const handleZoomReset = () => {
+  if (mapViewerRef.value) {
+    mapViewerRef.value.reset()
+  }
 }
 
 onMounted(() => {
@@ -73,6 +74,8 @@ onMounted(() => {
     <Header 
       @toggle-menu="toggleMenu"
       :menu-open="menuOpen"
+      @zoom-reset="handleZoomReset"
+      @select-room="handleRoomSelect"
     />
     
     <HamburgerMenu 
@@ -86,20 +89,13 @@ onMounted(() => {
     />
     
     <main class="main-content">
-      <SearchBar 
-        :buildings="buildings"
-        :current-building="currentBuilding"
-        :current-floor="currentFloor"
-        @select-room="handleRoomSelect"
-      />
-      
       <MapViewer 
+        ref="mapViewerRef"
         v-if="currentMap"
         :map-src="currentMap"
-        :highlighted-room="highlightedRoom"
         :building="currentBuilding?.id"
         :floor="currentFloor"
-        @room-click="clearHighlight"
+        @room-click="() => {}"
       />
       
       <div v-else class="no-map">
@@ -138,55 +134,42 @@ html {
 
 body {
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, sans-serif;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  background: #1a1a1a;
   color: var(--text-dark);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: rgba(45, 45, 45, 0.95);
+  background: #1a1a1a;
 }
 
 .main-content {
   flex: 1;
-  padding: 1rem;
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
+  position: relative;
+  min-height: calc(100vh - 110px);
 }
 
 .no-map {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+  min-height: calc(100vh - 110px);
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 1rem;
   background: #3a3a3a;
-  border-radius: 16px;
-  box-shadow: var(--shadow);
   padding: 2rem;
-  border: 1px solid #4a4a4a;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
-  .main-content {
-    padding: 1.5rem;
-  }
-  
   .no-map {
-    font-size: 1.25rem;
-    padding: 3rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .main-content {
-    padding: 2rem;
+    min-height: calc(100vh - 130px);
   }
 }
 </style>
