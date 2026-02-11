@@ -22,15 +22,6 @@ const buildings = [
   }
 ]
 
-const currentMap = computed(() => {
-  if (!currentBuilding.value || !currentFloor.value) return null
-  
-  const buildingPrefix = currentBuilding.value.id === 'aulario' ? 'Aulario' : 'Edificio-Principal'
-  const base = import.meta.env.BASE_URL
-  const mapPath = `/images/${buildingPrefix}-Piso(${currentFloor.value}).svg`
-  return base === '/' ? mapPath : `${base}${mapPath}`
-})
-
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value
 }
@@ -91,16 +82,10 @@ onMounted(() => {
     <main class="main-content">
       <MapViewer 
         ref="mapViewerRef"
-        v-if="currentMap"
-        :map-src="currentMap"
         :building="currentBuilding?.id"
         :floor="currentFloor"
         @room-click="() => {}"
       />
-      
-      <div v-else class="no-map">
-        <p>Selecciona un edificio y piso para ver el mapa</p>
-      </div>
     </main>
   </div>
 </template>

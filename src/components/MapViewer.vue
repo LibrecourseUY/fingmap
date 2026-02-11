@@ -3,7 +3,6 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { EdificioPrincipal, Aulario } from './svgs'
 
 const props = defineProps({
-  mapSrc: String,
   building: String,
   floor: String
 })
@@ -132,11 +131,6 @@ const handleMouseMove = (e) => {
 const handleMouseUp = () => {
   isDragging.value = false
 }
-
-watch(() => props.mapSrc, () => {
-  svgReady.value = false
-  pan.value = { x: 0, y: 0 }
-})
 
 onMounted(() => {
   document.addEventListener('mouseup', handleMouseUp)
