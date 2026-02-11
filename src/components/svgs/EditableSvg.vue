@@ -68,6 +68,7 @@ const applyTheme = (svg) => {
 
   svg.style.background = theme.background
   svg.style.backgroundColor = theme.background
+  svg.style.colorScheme = 'dark'
 
   svg.querySelectorAll('*').forEach(el => {
     const tagName = el.tagName.toLowerCase()
