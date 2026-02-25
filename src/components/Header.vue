@@ -126,6 +126,7 @@ onMounted(() => {
           <span></span>
         </button>
         <div class="logo">
+          <img src="/mapLogo.svg" alt="MapLogo" class="logo-icon" />
           <h1 class="logo-text">Fingmap</h1>
         </div>
       </div>
