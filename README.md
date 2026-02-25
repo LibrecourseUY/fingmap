@@ -1,6 +1,5 @@
 # fingmap - Interactive Map of Fing
-
-[![DeepWiki](https://deepwiki.com/badge-maker?url=https://deepwiki.com/Fingdev/fingmap)](https://deepwiki.com/Fingdev/fingmap)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Fingdev/fingmap)
 
 Welcome to fingmap! This project is an interactive map of the Faculty of Engineering.
 
