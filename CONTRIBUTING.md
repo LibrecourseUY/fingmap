@@ -21,7 +21,7 @@ Respect and kindness toward everyone. This is a community for learning together.
 
 ### Step 1: Fork
 
-1. Go to: https://github.com/fingdev/fingmap
+1. Go to: https://github.com/LibrecourseUY/fingmap
 2. Click "Fork" (top right)
 3. Select your GitHub account
 
