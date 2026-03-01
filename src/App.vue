@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import Header from './components/Header.vue'
 import HamburgerMenu from './components/HamburgerMenu.vue'
 import MapViewer from './components/MapViewer.vue'
+import DisclaimerModal from './components/DisclaimerModal.vue'
 
 const currentBuilding = ref(null)
 const currentFloor = ref(null)
@@ -61,6 +62,8 @@ onMounted(() => {
 </script>
 
 <template>
+  <DisclaimerModal />
+
   <div class="app">
     <Header 
       @toggle-menu="toggleMenu"
@@ -157,4 +160,5 @@ body {
     min-height: calc(100vh - 130px);
   }
 }
+
 </style>
